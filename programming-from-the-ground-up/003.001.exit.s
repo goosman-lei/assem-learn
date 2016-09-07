@@ -14,6 +14,5 @@
 _start:
     movl $1, %eax   # call the "exit" system call
 
-    movl $8, %ebx   # return "0" to system as status code
+    movl $3, %ebx   # return "0" to system as status code
 
-    int $0x80       # wakeup kernel, run exit command
