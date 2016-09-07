@@ -16,3 +16,4 @@ _start:
 
     movl $3, %ebx   # return "0" to system as status code
 
+    int $0x80       # interrupt, back control to kernel

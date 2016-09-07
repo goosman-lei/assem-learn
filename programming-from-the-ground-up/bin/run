@@ -1,0 +1,11 @@
+#!/bin/bash
+__DIR__=$( cd `dirname ${BASH_SOURCE[0]}` && pwd )
+OUTPUT_PATH=$__DIR__/../output
+
+[ -d $OUTPUT_PATH ] || mkdir -p $OUTPUT_PATH
+
+SOURCE_FILE=$1
+OUTPUT_OBJ=$OUTPUT_PATH/a.o
+OUTPUT_EXEC=$OUTPUT_PATH/a.out
+
+as "$SOURCE_FILE" -o "$OUTPUT_OBJ" && ld $OUTPUT_OBJ -o $OUTPUT_EXEC && $OUTPUT_EXEC
