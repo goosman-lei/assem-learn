@@ -1,4 +1,5 @@
 # 目的: 本程序将输入文件的所有字母转化为大写字母, 然后输出到输出文件
+#   5.5.2练习题, 使用标准输入输出
 
 # 处理过程:
 #   * 打开输入文件
@@ -39,7 +40,7 @@
 .section .bss
 
 # 文件读写缓冲区. 由于种种原因, 缓冲区大小不应该超过16 000字节
-.equ BUFFER_SIZE, 100
+.equ BUFFER_SIZE, 500
 .lcomm BUFFER_DATA, BUFFER_SIZE
 
 .section .text
@@ -48,10 +49,6 @@
 .equ ST_SIZE_RESERVER, 8
 .equ ST_FD_IN, -4
 .equ ST_FD_OUT, -8
-.equ ST_ARGC, 0     # 参数数目
-.equ ST_ARGV_0, 4   # 程序名
-.equ ST_ARGV_1, 8   # 输入文件名
-.equ ST_ARGV_2, 12  # 输出文件名
 
 .globl _start
 
@@ -64,25 +61,11 @@ _start:
 
 open_files:
 
-open_fd_in:     # 只读方式打开输入文件
-    movl $SYS_OPEN, %eax
-    movl ST_ARGV_1(%ebp), %ebx
-    movl $O_RDONLY, %ecx
-    movl $0666, %edx
-    int $LINUX_SYSCALL
-
 store_fd_in:    # 保存标准输入的文件描述符
-    movl %eax, ST_FD_IN(%ebp)
-
-open_fd_out:    # 读写方式打开输出文件/不存在则创建
-    movl $SYS_OPEN, %eax
-    movl ST_ARGV_2(%ebp), %ebx
-    movl $O_CREAT_WRONLY_TRUNC, %ecx
-    movl $0666, %edx
-    int $LINUX_SYSCALL
+    movl $0, ST_FD_IN(%ebp)
 
 store_fd_out:   # 保存标准输出的文件描述符
-    movl %eax, ST_FD_OUT(%ebp)
+    movl $1, ST_FD_OUT(%ebp)
 
 read_loop_begin:
     movl $SYS_READ, %eax        # 读取BUFFER_SIZE的数据到BUFFER_DATA中
