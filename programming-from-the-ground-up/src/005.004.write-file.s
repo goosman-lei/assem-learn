@@ -16,7 +16,7 @@ STRING_LITERAL:
 STRING_LEN:
     .long 13
 FNAME_LITERAL:
-    .string "helloworld.txt"
+    .string "data/helloworld.txt"
 
 .section .text
 
