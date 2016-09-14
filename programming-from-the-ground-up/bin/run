@@ -4,12 +4,13 @@ OUTPUT_PATH=$__DIR__/../output
 
 [ -d $OUTPUT_PATH ] || mkdir -p $OUTPUT_PATH
 
+INCLUDE_DIR=$__DIR__/../include
 SOURCE_FILE=$1
 OUTPUT_OBJ=$OUTPUT_PATH/a.o
 OUTPUT_EXEC=$OUTPUT_PATH/a.out
 
 SOURCE_BASE_DIR=$( dirname $SOURCE_FILE )
 
-as --32 --gstabs+ -I "$SOURCE_BASE_DIR" "$SOURCE_FILE" -o "$OUTPUT_OBJ" \
-    && ld -m elf_i386 $OUTPUT_OBJ -o $OUTPUT_EXEC \
+as --32 --gstabs+ -I "$SOURCE_BASE_DIR" -I "$INCLUDE_DIR" "$SOURCE_FILE" -o "$OUTPUT_OBJ" \
+    && ld -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -L/lib -lc $OUTPUT_OBJ -o $OUTPUT_EXEC \
     && $OUTPUT_EXEC "$2" "$3" "$4" "$5" "$6" "$7"
